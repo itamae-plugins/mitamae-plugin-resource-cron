@@ -41,7 +41,6 @@ module ::MItamae
         #
         # current_attributes which are the same as desired_attributes will NOT be touched in #apply.
         def set_current_attributes(current, action)
-          load_current_resource
           case action
           when :create, :delete
             current.created = false
