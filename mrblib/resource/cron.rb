@@ -7,8 +7,6 @@ module ::MItamae
         define_attribute :action, default: :create
         define_attribute :command, type: String, default_name: true
 
-        state_attrs :minute, :hour, :day, :month, :weekday, :user
-
         define_attribute :minute, type: String, default: '*'
         define_attribute :hour, type: String, default: '*'
         define_attribute :day, type: String, default: '*'
