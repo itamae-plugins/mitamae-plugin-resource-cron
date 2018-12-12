@@ -166,6 +166,40 @@ module ::MItamae
           end
         end
 
+        def action_delete
+          if current.cron_exists
+            crontab = String.new
+            cron_found = false
+            read_crontab.each_line do |line|
+              case line.chomp
+              when "# Chef Name: #{@resource.resource_name}"
+                cron_found = true
+                next
+              when ENV_PATTERN
+                next if cron_found
+              when SPECIAL_PATTERN
+                if cron_found
+                  cron_found = false
+                  next
+                end
+              when CRON_PATTERN
+                if cron_found
+                  cron_found = false
+                  next
+                end
+              else
+                # We've got a Chef comment with no following crontab line
+                cron_found = false
+              end
+              crontab << line
+            end
+            description = cron_found ? "remove #{@resource.resource_name} from crontab" :
+              "save unmodified crontab"
+            write_crontab crontab
+            MItamae.logger.info("#{@resource.resource_name} deleted crontab entry")
+          end
+        end
+
         def set_environment_var(attr_name, attr_value)
           if %w{MAILTO PATH SHELL HOME}.include?(attr_name)
             current.send("#{attr_name.downcase}=", attr_value)
