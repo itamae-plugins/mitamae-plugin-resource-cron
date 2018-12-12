@@ -18,7 +18,7 @@ module ::MItamae
           if desired.cron_exists
             action_create
           else
-            raise NotImplementedError, 'only create action is supported for now'
+            action_delete
           end
         end
 
