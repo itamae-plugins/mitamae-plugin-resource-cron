@@ -224,7 +224,7 @@ module ::MItamae
           write_exception = false
           f = Tempfile.open('mitamae-plugin-resource-cron')
           f.write(crontab)
-          command = @runner.run_command("cat #{crontab.path.shellescape} | crontab -u #{desired.user} -")
+          command = @runner.run_command("cat #{f.path.shellescape} | crontab -u #{desired.user} -")
           f.close
           if command.exit_status > 0
             raise "Error updating state of #{@resource.resource_name}, exit: #{command.exit_status}"
