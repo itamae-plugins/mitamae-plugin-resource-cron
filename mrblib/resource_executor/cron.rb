@@ -72,7 +72,7 @@ module ::MItamae
                 current.cron_exists = true
                 next
               when ENV_PATTERN
-                set_environment_var($1, $2) if cron_found
+                set_environment_var($1, $2, current: current) if cron_found
                 next
               when SPECIAL_PATTERN
                 if cron_found
@@ -200,7 +200,7 @@ module ::MItamae
           end
         end
 
-        def set_environment_var(attr_name, attr_value)
+        def set_environment_var(attr_name, attr_value, current: nil)
           if %w{MAILTO PATH SHELL HOME}.include?(attr_name)
             current.send("#{attr_name.downcase}=", attr_value)
           else
