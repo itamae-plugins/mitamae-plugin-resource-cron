@@ -238,7 +238,7 @@ module ::MItamae
             newcron << "#{v.to_s.upcase}=\"#{desired.send(v)}\"\n" if desired.send(v)
           end
           desired.environment.each do |name, value|
-            newcron << "#{name}=#{value}\n"
+            newcron << "#{name}=#{value.shellescape}\n"
           end
           if desired.time
             newcron << "@#{desired.time} #{desired.command}\n"
